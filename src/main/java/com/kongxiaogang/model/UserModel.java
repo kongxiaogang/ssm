@@ -1,0 +1,105 @@
+package com.kongxiaogang.model;
+
+import com.kongxiaogang.model.common.BaseModel;
+
+public class UserModel extends BaseModel {
+    private Integer id;
+
+    private String userId;
+
+    private String userName;
+
+    private String realName;
+
+    private String userPwd;
+
+    private String userEmail;
+
+    private Integer userStatus;
+
+    private String userTelephone;
+
+    private Integer loginNumber;
+
+    private String userSalt;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName == null ? null : realName.trim();
+    }
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd == null ? null : userPwd.trim();
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail == null ? null : userEmail.trim();
+    }
+
+    public Integer getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public String getUserTelephone() {
+        return userTelephone;
+    }
+
+    public void setUserTelephone(String userTelephone) {
+        this.userTelephone = userTelephone == null ? null : userTelephone.trim();
+    }
+
+    public Integer getLoginNumber() {
+        return loginNumber;
+    }
+
+    public void setLoginNumber(Integer loginNumber) {
+        this.loginNumber = loginNumber;
+    }
+
+    public String getUserSalt() {
+        return userSalt;
+    }
+
+    public void setUserSalt(String userSalt) {
+        this.userSalt = userSalt == null ? null : userSalt.trim();
+    }
+}
