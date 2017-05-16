@@ -1,40 +1,49 @@
 package com.kongxiaogang.dao.impl;
 
-import java.util.List;
-
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.kongxiaogang.dao.UserDao;
 import com.kongxiaogang.model.UserModel;
 
 /**
- * DAO实现示例
- * @author LiJZ
- *
  */
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
 
 	@Override
-	public int insert(UserModel user) {
-		getSqlSession().insert("insert", user);
-		return user.getId();
+	public int deleteByPrimaryKey(int userId) {
+		return getSqlSession().delete("com.kongxiaogang.dao.UserModelMapper.deleteByPrimaryKey",userId);
 	}
 
 	@Override
-	public int updateByPrimaryKey(UserModel user) {
-		return getSqlSession().update("UserMapper.updateUser",user);
+	public int insert(UserModel record) {
+		return getSqlSession().insert("com.kongxiaogang.dao.UserModelMapper.insert",record);
 	}
 
 	@Override
-	public int deleteByPrimaryKey(Integer id) {
-		return getSqlSession().update("UserMapper.deleteUser", id);
+	public int insertSelective(UserModel record) {
+		return getSqlSession().insert("com.kongxiaogang.dao.UserModelMapper.insertSelective",record);
 	}
 
 	@Override
-	public UserModel selectByPrimaryKey(Integer userId) {
-		List<UserModel> res = getSqlSession().selectList("selectByPrimaryKey",userId);
-		return res != null && res.size() > 0 ? res.get(0) : null;
+	public UserModel selectByPrimaryKey(int userId) {
+		System.out.println("执行");
+		//getSqlSession().selectList("UserModelMapper.selectByPrimaryKey",userId);
+		return null;
 	}
 
+	@Override
+	public int updateByPrimaryKeySelective(UserModel record) {
+		return getSqlSession().update("com.kongxiaogang.dao.UserModelMapper.updateByPrimaryKeySelective",record);
+	}
+
+	@Override
+	public int updateByPrimaryKey(UserModel record) {
+		return getSqlSession().update("com.kongxiaogang.dao.UserModelMapper.updateByPrimaryKey",record);
+	}
+
+	@Override
+	public UserModel getUserByUserName(String userName) {
+		return getSqlSession().selectOne("UserModelMapper.getUserByUserName",userName);
+	}
 
 }

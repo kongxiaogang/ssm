@@ -2,10 +2,8 @@ package com.kongxiaogang.model;
 
 import com.kongxiaogang.model.common.BaseModel;
 
-public class UserModel extends BaseModel {
-    private Integer id;
-
-    private String userId;
+public class UserModel extends BaseModel{
+    private Integer userId;
 
     private String userName;
 
@@ -23,20 +21,12 @@ public class UserModel extends BaseModel {
 
     private String userSalt;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
