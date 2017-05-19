@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kongxiaogang.dao.RolePerModelMapper" >
+<mapper namespace="com.kongxiaogang.dao.RolePerDao" >
   <resultMap id="BaseResultMap" type="com.kongxiaogang.model.RolePerModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="role_id" property="roleId" jdbcType="INTEGER" />
@@ -18,6 +18,10 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role_per
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer" >
+    delete from sys_role_per
+    where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.kongxiaogang.model.RolePerModel" >
     insert into sys_role_per (id, role_id, per_id

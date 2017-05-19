@@ -30,7 +30,12 @@
 <script src="<%=request.getContextPath()%>/resources/plugins/bootstrap-select/js/i18n/defaults-zh_CN.js"></script>
 <!-- page -->
 <script src="<%=request.getContextPath()%>/resources/plugins/myPage/jqPaginator.js"></script>
-<%-- 
-<script src="<%=request.getContextPath()%>/resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
- --%>
- 
+<!-- sliderbar -->
+<script src="<%=request.getContextPath()%>/resources/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+<!-- treeview -->
+<script src="<%=request.getContextPath()%>/resources/plugins/treeview/js/bootstrap-treeview.js"></script>
+<!-- treegrid -->
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/plugins/treegrid/js/jquery.treegrid.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+  --%>

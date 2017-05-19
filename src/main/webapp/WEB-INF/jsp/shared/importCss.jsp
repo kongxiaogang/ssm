@@ -1,5 +1,9 @@
  <!-- Bootstrap 3.3.6 -->
  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap/css/bootstrap.css">
+  <!-- Font Awesome -->
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/font-awesome/css/font-awesome.min.css">
+ <!-- Ionicons -->
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/ionicons/css/ionicons.min.css">
  <!-- Theme style -->
  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/dist/css/AdminLTE.min.css">
  <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -21,4 +25,8 @@
  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/bootstrap-select/dist/css/bootstrap-select.css">
  <!-- datatimepicker -->
  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datetimepicker/css/bootstrap-datetimepicker.css">
+ <!-- treeview -->
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/treeview/js/bootstrap-treeview.css">
+ <!-- treegrid -->
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/treegrid/css/jquery.treegrid.css">
 

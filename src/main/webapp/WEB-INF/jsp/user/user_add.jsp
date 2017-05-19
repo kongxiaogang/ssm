@@ -48,16 +48,10 @@
                   <div class="col-sm-5">
 	                  <select id="roleId" name="roleId" class="form-control select2" style="width: 90%;">
 	                  	<c:forEach items="${rolelist}" var="role">
-		                    <option value="${role.roleId}">${role.roleCnname}</option>
+		                    <option value="${role.roleId}">${role.roleName}</option>
 	                    </c:forEach>
 	                   <!--  <option disabled="disabled">California (disabled)</option> -->
 	                  </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="userId" class="col-sm-2 control-label" >用户编码：</label>
-                  <div class="col-sm-6">
-                  	<input name="userId" name="userId" type="text" class="form-control" placeholder="Enter ..."  >
                   </div>
                 </div>
                 <div class="form-group">

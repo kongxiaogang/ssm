@@ -26,8 +26,12 @@ public class ServiceVO<T> {
 	 **/
 	private boolean runResult = false;
 	
-	private final T resultObject = null;
+	private T resultObject = null;
 	
+	public void setResultObject(T resultObject) {
+		this.resultObject = resultObject;
+	}
+
 	private String message = "";
 	
 	public String getMessage() {

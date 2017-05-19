@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kongxiaogang.dao.RoleModelMapper" >
+<mapper namespace="com.kongxiaogang.dao.RoleDao" >
   <resultMap id="BaseResultMap" type="com.kongxiaogang.model.RoleModel" >
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
@@ -68,4 +68,25 @@
       role_des = #{roleDes,jdbcType=VARCHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+  <select id="selectRoleList" parameterType="java.lang.String" resultMap="BaseResultMap">
+	SELECT
+	<include refid="Base_Column_List" />
+	FROM SYS_ROLE where 1=1 
+	<if test="roleId !=null">
+		and role_id=#{roleId,jdbcType=INTEGER} 
+	</if>
+  </select>
+  <select id="selectRoleAndPerList" parameterType="com.kongxiaogang.model.RoleModel" resultType="java.util.Map">
+	SELECT
+	r.role_id as roleId , r.role_name as roleName , r.role_des as roleDes,
+	rp.per_id as perId,
+	p.menu_id as menuId
+	FROM sys_role r
+	left join sys_role_per rp on r.role_id = rp.role_id 
+	left join sys_permission p on p.per_id = rp.per_id 
+	where 1=1 
+	<if test="roleId !=null">
+		and r.role_id=#{roleId,jdbcType=INTEGER} 
+	</if>
+  </select>
 </mapper>

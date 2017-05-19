@@ -23,35 +23,35 @@ public class AuthorityMenu {
 	
 	private String itemIcon; //菜单图标
 	
-	private String menuPageurl; //菜单url
+	private String pageUrl; //菜单url
 	
 	private Integer parentId;//父权限id
 	
 	private List<AuthorityMenu> childrens; //子菜单
 	
-	public AuthorityMenu(Integer perId,Integer menuId, String menuName, String itemIcon, String menuPageurl){
+	public AuthorityMenu(Integer perId,Integer menuId, String menuName, String itemIcon, String pageUrl){
 		this.perId = perId;
 		this.menuId = menuId;
 		this.menuName = menuName;
 		this.itemIcon = itemIcon;
-		this.menuPageurl = menuPageurl;
+		this.pageUrl = pageUrl;
 	}
 	
-	public AuthorityMenu(Integer perId,Integer menuId, String menuName, String itemIcon, String menuPageurl,Integer parentId){
+	public AuthorityMenu(Integer perId,Integer menuId, String menuName, String itemIcon, String pageUrl,Integer parentId){
 		this.perId = perId;
 		this.menuId = menuId;
 		this.menuName = menuName;
 		this.itemIcon = itemIcon;
-		this.menuPageurl = menuPageurl;
+		this.pageUrl = pageUrl;
 		this.parentId = parentId;
 	}
 	
-	public AuthorityMenu(Integer perId,Integer menuId, String menuName,  String itemIcon, String menuPageurl, Integer parentId,List<AuthorityMenu> childrens){
+	public AuthorityMenu(Integer perId,Integer menuId, String menuName,  String itemIcon, String pageUrl, Integer parentId,List<AuthorityMenu> childrens){
 		this.perId = perId;
 		this.menuId = menuId;
 		this.menuName = menuName;
 		this.itemIcon = itemIcon;
-		this.menuPageurl = menuPageurl;
+		this.pageUrl = pageUrl;
 		this.parentId = parentId;
 		this.childrens = childrens;
 	}
@@ -88,12 +88,12 @@ public class AuthorityMenu {
 		this.itemIcon = itemIcon;
 	}
 
-	public String getMenuPageurl() {
-		return menuPageurl;
+	public String getPageUrl() {
+		return pageUrl;
 	}
 
-	public void setMenuPageurl(String menuPageurl) {
-		this.menuPageurl = menuPageurl;
+	public void setPageUrl(String pageUrl) {
+		this.pageUrl = pageUrl;
 	}
 
 	public List<AuthorityMenu> getChildrens() {

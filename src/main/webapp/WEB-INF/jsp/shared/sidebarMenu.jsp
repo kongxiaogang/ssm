@@ -60,7 +60,7 @@
 		            	<li >
 		        	</c:otherwise>
 		         	</c:choose>
-		         		<a href="${child.menuPageurl}"><i class="fa fa-circle-o"></i>${child.menuName}
+		         		<a href="${child.pageUrl}"><i class="fa fa-circle-o"></i>${child.menuName}
 		         			<c:if test="${not empty child.childrens }">
 			         			<span class="pull-right-container">
 	                  				<i class="fa fa-angle-left pull-right"></i>
@@ -78,7 +78,7 @@
 					            	<li >
 					        	</c:otherwise>
 					         	</c:choose>
-					         		<a href="${grandson.menuPageurl}"><i class="fa fa-circle-o"></i>${grandson.menuName}
+					         		<a href="${grandson.pageUrl}"><i class="fa fa-circle-o"></i>${grandson.menuName}
 					         		</a>
 					         	</li>
 				         	</c:forEach>

@@ -42,11 +42,10 @@
 	<!-- mybatis 配置 -->
   	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  	<property name="dataSource" ref="dataSource" />
+	 	<!-- 单独单个手动配置mapper -->
+	  	<property name="configLocation" value="classpath:mybatis/mysql-sqlmap.xml" />
 		<!-- 自动扫描某个目录下的xml文件 -->
 	 	<property name="mapperLocations" value="classpath*:mybatis/*Mapper.xml" />
-	 	<!-- 单独单个手动配置mapper
-	  	<property name="configLocation" value="classpath:mybatis/mysql-sqlmap.xml" />
-	   	-->
 	</bean>
 	<!-- 自动到扫描加载dao层配置 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

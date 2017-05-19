@@ -8,13 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -61,8 +55,7 @@
                 <thead>
                 <tr>
                   <th>序号</th>
-                  <th>角色中文名称</th>
-                  <th>角色英文名称</th>
+                  <th>角色名称</th>
                   <th>角色描述</th>
                 </tr>
                 </thead>
@@ -70,8 +63,7 @@
 	                <c:forEach items="${page.list}" var="role" varStatus="status">
 	                    <tr>
 	                    	<td>${page.startRow+status.index}</td>
-	                        <td>${role.roleCnname}</td>
-	                        <td>${role.roleEnname}</td>
+	                        <td>${role.roleName}</td>
 	                        <td>${role.roleDes}</td>
 	                  		<th>
 	                  			<button class="btn btn-xs btn-info" onclick="editRole('${role.roleId }','${role.roleDes }');">修改</button>

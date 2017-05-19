@@ -8,13 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -67,6 +61,7 @@
                   <label for="inputEmail3" class="col-sm-2 control-label">权限选择：</label>
                   <div class="col-sm-10">
 	                  <select name="menuId" class="form-control select2" style="width: 50%;">
+	                  	<!-- <option value="">请选择</option> -->
 	                  	<c:forEach items="${childMenuList}" var="menu">
 		                    <option value="${menu.menuId}" >${menu.menuName}</option>
 	                    </c:forEach>
@@ -135,14 +130,6 @@
         	},
         }
 	  });
-	  
-    $('#example2').DataTable({
-      "paging": false,
-      "bFilter": false,
-      "bSort": false,
-      "info": false,
-      "sInfo":false
-    });
   });
 </script>
 </body>

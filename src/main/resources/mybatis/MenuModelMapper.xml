@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kongxiaogang.dao.MenuModelMapper" >
+<mapper namespace="com.kongxiaogang.dao.MenuDao" >
   <resultMap id="BaseResultMap" type="com.kongxiaogang.model.MenuModel" >
     <id column="menu_id" property="menuId" jdbcType="INTEGER" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
@@ -8,9 +8,10 @@
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="order_number" property="orderNumber" jdbcType="INTEGER" />
+    <result column="leaf_node" property="leafNode" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    menu_id, menu_name, page_url, parent_id, level, order_number
+    menu_id, menu_name, page_url, parent_id, level, order_number, leaf_node
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.kongxiaogang.model.MenuModel" >
     insert into sys_menu (menu_id, menu_name, page_url, 
-      parent_id, level, order_number
-      )
+      parent_id, level, order_number, 
+      leaf_node)
     values (#{menuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{pageUrl,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{orderNumber,jdbcType=INTEGER}
-      )
+      #{parentId,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{orderNumber,jdbcType=INTEGER}, 
+      #{leafNode,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kongxiaogang.model.MenuModel" >
     insert into sys_menu
@@ -51,6 +52,9 @@
       <if test="orderNumber != null" >
         order_number,
       </if>
+      <if test="leafNode != null" >
+        leaf_node,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="menuId != null" >
@@ -70,6 +74,9 @@
       </if>
       <if test="orderNumber != null" >
         #{orderNumber,jdbcType=INTEGER},
+      </if>
+      <if test="leafNode != null" >
+        #{leafNode,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="orderNumber != null" >
         order_number = #{orderNumber,jdbcType=INTEGER},
       </if>
+      <if test="leafNode != null" >
+        leaf_node = #{leafNode,jdbcType=INTEGER},
+      </if>
     </set>
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
@@ -100,7 +110,40 @@
       page_url = #{pageUrl,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
-      order_number = #{orderNumber,jdbcType=INTEGER}
+      order_number = #{orderNumber,jdbcType=INTEGER},
+      leaf_node = #{leafNode,jdbcType=INTEGER}
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
+  <select id="listLevelOneMenuList" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" /> 
+	from sys_menu 
+	where parent_id = '1000000' order by order_number 
+  </select>
+  
+  <select id="getChildMenusByParentId" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" /> 
+	from sys_menu 
+	where 
+	parent_id = #{parentId,jdbcType=INTEGER} 
+	order by order_number 
+  </select>
+  <select id="getThisLevelMenusByMenuId" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" /> 
+	from sys_menu 
+	where 
+	level = (select level from sys_menu 
+	where
+	menu_id = #{menuId,jdbcType=INTEGER} 
+	)
+	order by order_number 
+  </select>
+  <select id="selectAllMenusList" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" /> 
+	from sys_menu 
+	order by order_number 
+  </select>
 </mapper>

@@ -8,13 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -47,23 +41,17 @@
             <!-- /.box-header -->
             <!-- form start -->
             <form id="userform" name="userform" class="form-horizontal" action="<%=request.getContextPath()%>/user/editUser.do" method="post" >
-              <input name="id" value="${user.id}" type="hidden" class="form-control" >
+              <input name="userId" value="${user.userId}" type="hidden" class="form-control" >
               <div class="box-body">
                 <div class="form-group">
                   <label for="roleId" class="col-sm-2 control-label">用户角色：</label>
                   <div class="col-sm-10">
 	                  <select id="roleId" name="roleId" class="form-control select2" style="width: 50%;">
 	                  	<c:forEach items="${rolelist}" var="role">
-		                    <option value="${role.roleId}" <c:if test="${user.roleId==role.roleId}">selected</c:if>  >${role.roleCnname}</option>
+		                    <option value="${role.roleId}" <c:if test="${user.roleId==role.roleId}">selected</c:if>  >${role.roleName}</option>
 	                    </c:forEach>
 	                   <!--  <option disabled="disabled">California (disabled)</option> -->
 	                  </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="userId" class="col-sm-2 control-label" >用户号：</label>
-                  <div class="col-sm-10">
-                  	<input id="userId" name="userId" value="${user.userId}" type="text" class="form-control" placeholder="Enter ..."  style="width: 70%;" >
                   </div>
                 </div>
                 <div class="form-group">

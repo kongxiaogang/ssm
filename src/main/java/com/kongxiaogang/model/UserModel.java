@@ -20,6 +20,8 @@ public class UserModel extends BaseModel{
     private Integer loginNumber;
 
     private String userSalt;
+    
+    private Integer roleId;//用户所属角色id
 
     public Integer getUserId() {
         return userId;
@@ -92,4 +94,13 @@ public class UserModel extends BaseModel{
     public void setUserSalt(String userSalt) {
         this.userSalt = userSalt == null ? null : userSalt.trim();
     }
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+    
 }

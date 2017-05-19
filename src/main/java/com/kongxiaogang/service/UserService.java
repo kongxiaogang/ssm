@@ -22,7 +22,7 @@ public interface UserService {
 	/**
 	 * 根据userid删除用户信息
 	 */
-	public Integer deleteUser(String userID);
+	public int deleteUser(String userID);
 	/**
 	 * 添加用户
 	 */

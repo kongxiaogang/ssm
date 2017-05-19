@@ -29,7 +29,7 @@ public interface PermissionDao {
 	/**
 	 * <pre>selectPermissionList(根据map查询权限信息)   
 	 */
-	public List<Map<String,Object>> selectPermissionList(Map<String,Object> permission);
+	public List<Map<String,Object>> selectPermissionListByMap(Map<String,Object> permission);
 	/**
 	 * 根据顶级菜单获取对应权限
 	 * @return
@@ -38,5 +38,6 @@ public interface PermissionDao {
 	/**
 	 * 根据操作id获取所有子菜单对应的权限
 	 */
-	public List<PermissionModel> getChildsPermissionByOpeId(Integer opeId);
+	public List<PermissionModel> getChildsPermissionByParentId(Integer opeId);
+
 }

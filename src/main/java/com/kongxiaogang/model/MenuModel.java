@@ -14,6 +14,8 @@ public class MenuModel extends BaseModel{
     private Integer level;
 
     private Integer orderNumber;
+    
+    private Integer leafNode; 
 
     public Integer getMenuId() {
         return menuId;
@@ -62,4 +64,12 @@ public class MenuModel extends BaseModel{
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
+
+	public Integer getLeafNode() {
+		return leafNode;
+	}
+
+	public void setLeafNode(Integer leafNode) {
+		this.leafNode = leafNode;
+	}
 }

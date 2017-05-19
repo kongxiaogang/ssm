@@ -1,6 +1,7 @@
 package com.kongxiaogang.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kongxiaogang.model.PermissionModel;
 import com.kongxiaogang.model.auth.TreeNode;
@@ -19,6 +20,8 @@ public interface PermissionService {
 	 * @return
 	 */
 	public List<PermissionModel> getPermissionList(PermissionModel permission);
+	
+	public List<Map<String,Object>> getPermissionList(Map<String,Object> condition);
 	/**
 	 * 根据permissionid删除权限信息
 	 * @param permissionid
@@ -57,4 +60,15 @@ public interface PermissionService {
 	 * @return</pre>
 	 */
 	public List<TreeNode> getPermissionsByRoleId(String id);
+	/**
+	 * <pre>addOtherLevelPerForOne(为一级菜单对应权限增加下级权限)   
+	 * 创建人：孔小刚 xiaogangkong@galaxyinternet.com    
+	 * 创建时间：2017年5月18日 下午5:07:41    
+	 * 修改人：孔小刚 xiaogangkong@galaxyinternet.com     
+	 * 修改时间：2017年5月18日 下午5:07:41    
+	 * 修改备注： 
+	 * @param list
+	 * @return</pre>
+	 */
+	public List<Map<String, Object>> addOtherLevelPerForOne(List<Map<String, Object>> list);
 }

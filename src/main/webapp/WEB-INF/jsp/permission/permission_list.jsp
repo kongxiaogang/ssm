@@ -8,13 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -41,38 +35,38 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">权限列表</h3>
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 300px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+           <form id="queryForm" name="queryForm" class="form-horizontal" method="post" >
+              <h3 class="box-title">权限管理</h3>
+              <div class="box-tools pull-right">
+                <div class="input-group input-group-sm" >
                   <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                    <button class="btn btn-default" onclick="">查询</button>
-                  </div>
-                  <div class="input-group-btn">
-                    <button class="btn btn-default" onclick="addPermission('');">增加</button>
+                    <button type="button" class="btn btn-default btn-info" onclick="addPermission('');">增加</button>
                   </div>
                 </div>
               </div> 
+           </form>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="dataTable" class="table tree table-bordered table-hover">
                 <thead>
                 <tr>
                   <th>序号</th>
                   <th>权限名称</th>
                   <th>权限类型</th>
+                  <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
 	                <c:forEach items="${page.list}" var="permission" varStatus="status">
-	                    <tr>
-	                    	<td>${page.startRow+status.index}</td>
+	                    <tr class="treegrid-${permission.menuId} <c:if test="${permission.level != 1}">treegrid-parent-${permission.parentId}</c:if>">
+	                    	<td>${page.startRow+status.index+1}</td>
 	                        <td>${permission.perName}</td>
 	                        <td>${permission.perType==0?'菜单':permission.perType==1?'操作':'未知'}</td>
 	                  		<th>
-	                  			<button class="btn btn-xs btn-info" onclick="addPermission('${permission.menuId }');">添加下级</button>
+	                  			<c:if test="${permission.leafNode ==0 }">
+	                  				<button class="btn btn-xs btn-info" onclick="addPermission('${permission.menuId }');">添加下级</button>
+	                  			</c:if>
 	                  			<button class="btn btn-xs btn-info" onclick="editPermission('${permission.perId }','${permission.menuId }');">修改</button>
 	                  			<button class="btn btn-xs btn-info" onclick="delPermission('${permission.perId }','${permission.perName }');">删除</button>
 	                  		</th>
@@ -80,24 +74,32 @@
 	                </c:forEach>
                 </tbody>
               </table>
-              <table class="gridtable" style="width:50%;text-align: right;">
-               <tr>
-                   <c:if test="${page.hasPreviousPage}">
-                       <td><a href="showPermissionList.do?pageNum=${page.prePage}&pageSize=${page.pageSize}">前一页</a></td>
-                   </c:if>
-                   <c:forEach items="${page.navigatepageNums}" var="nav">
-                       <c:if test="${nav == page.pageNum}">
-                           <td style="font-weight: bold;">${nav}</td>
-                       </c:if>
-                       <c:if test="${nav != page.pageNum}">
-                           <td><a href="showPermissionList.do?pageNum=${nav}&pageSize=${page.pageSize}">${nav}</a></td>
-                       </c:if>
-                   </c:forEach>
-                   <c:if test="${page.hasNextPage}">
-                       <td><a href="showPermissionList.do?pageNum=${page.nextPage}&pageSize=${page.pageSize}">下一页</a></td>
-                   </c:if>
-               </tr>
-            </table>
+              <center>
+           		<div id="paging" class = "container">
+       				<ul class = "pagination">
+       					<c:if test="${page.hasPreviousPage==true}">
+       						<li><a onClick='gotoPage(${page.prePage},${page.pageSize })' >上一页</a></li>
+       					</c:if>
+       					<c:if test="${page.hasPreviousPage==false}">
+       						<li class="disabled"><a href="javascript:void(0)">上一页</a></li>
+       					</c:if>
+       					<c:forEach items="${page.navigatepageNums}" var="nav">
+       						<c:if test="${nav == page.pageNum}">
+        						<li class="active"><a onClick='gotoPage(${nav},${page.pageSize })' >${nav}</a></li>
+        					</c:if>
+        					<c:if test="${nav != page.pageNum}">
+        						<li><a onClick='gotoPage(${nav},${page.pageSize })' >${nav}</a></li>
+        					</c:if>
+       					</c:forEach>
+       					<c:if test="${page.hasNextPage==true}">
+       						<li><a onClick='gotoPage(${page.nextPage},${page.pageSize })' >下一页</a></li>
+       					</c:if>
+       					<c:if test="${page.hasNextPage==false}">
+       						<li class="disabled"><a href="javascript:void(0)">下一页</a></li>
+       					</c:if>
+       				</ul>
+           		</div>
+              </center>
             </div>
           </div>
           <!-- /.box -->
@@ -115,6 +117,12 @@
   <%@ include file="../shared/controlSidebar.jsp"%>
 </div>
 <script type="text/javascript">
+	//提交
+	function gotoPage(pageNum,pageSize){
+		$("#queryForm").append('<input value="'+pageNum+'" id="pageNum" type="hidden" name="pageNum"/>');  
+		$("#queryForm").append('<input value="'+pageSize+'" id="pageSize" type="hidden" name="pageSize"/>');
+	    this.document.queryForm.submit();
+	}
 	//删除权限
 	function delPermission(permissionId,msg){
 		bootbox.confirm("确定要删除["+msg+"]吗?", function(result) {
@@ -134,7 +142,13 @@
 </script>
 <script>
   $(function () {
-    $('#example2').DataTable({
+    $('.tree').treegrid({
+	  expanderExpandedClass: 'glyphicon glyphicon-minus',
+	  expanderCollapsedClass: 'glyphicon glyphicon-plus',
+	  'initialState': 'collapsed',
+	  treeColumn: 1
+	});
+    $('#dataTable').DataTable({
       "paging": false,
       "bFilter": false,
       "bSort": false,

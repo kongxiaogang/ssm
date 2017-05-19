@@ -8,13 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">

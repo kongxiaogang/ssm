@@ -8,15 +8,7 @@
   <title>AdminLTE 2 | 星河财富</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%@ include file="../shared/importCss.jsp"%>
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.css">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/treeview/js/bootstrap-treeview.css">
   <%@ include file="../shared/importJs.jsp"%>
-  <!-- DataTables -->
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/bootbox/bootbox.js"></script>
-  <script src="<%=request.getContextPath()%>/resources/treeview/js/bootstrap-treeview.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -53,14 +45,9 @@
               <input name="roleId" value="${role.roleId}" type="hidden" class="form-control" >
               <div class="box-body">
                 <div class="form-group">
-                  <label for="roleCnname" class="col-sm-2 control-label">角色中文名称：</label>
+                  <label for="roleName" class="col-sm-2 control-label">角色名称：</label>
                   <div class="col-sm-10">
-                  	<input id="roleCnname" name="roleCnname" value="${role.roleCnname }" type="text" class="form-control" placeholder="Enter ..." style="width: 70%;">
-                  </div>
-                </div><div class="form-group">
-                  <label for="roleEnname" class="col-sm-2 control-label">角色英文名称：</label>
-                  <div class="col-sm-10">
-                  	<input id="roleEnname" name="roleEnname" value="${role.roleEnname }" type="text" class="form-control" placeholder="Enter ..." style="width: 70%;">
+                  	<input id="roleName" name="roleName" value="${role.roleName }" type="text" class="form-control" placeholder="Enter ..." style="width: 70%;">
                   </div>
                 </div>
                 <div class="form-group">
