@@ -3,13 +3,14 @@
 <mapper namespace="com.kongxiaogang.dao.PermissionDao" >
   <resultMap id="BaseResultMap" type="com.kongxiaogang.model.PermissionModel" >
     <id column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="per_key" property="perKey" jdbcType="VARCHAR" />
     <result column="per_name" property="perName" jdbcType="VARCHAR" />
     <result column="per_type" property="perType" jdbcType="INTEGER" />
     <result column="ope_id" property="opeId" jdbcType="INTEGER" />
     <result column="menu_id" property="menuId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    per_id, per_name, per_type, ope_id, menu_id
+    per_id, per_key, per_name, per_type, ope_id, menu_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,16 +23,21 @@
     where per_id = #{perId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.kongxiaogang.model.PermissionModel" >
-    insert into sys_permission (per_id, per_name, per_type, 
-      ope_id, menu_id)
-    values (#{perId,jdbcType=INTEGER}, #{perName,jdbcType=VARCHAR}, #{perType,jdbcType=INTEGER}, 
-      #{opeId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
+    insert into sys_permission (per_id, per_key, per_name, 
+      per_type, ope_id, menu_id
+      )
+    values (#{perId,jdbcType=INTEGER}, #{perKey,jdbcType=VARCHAR}, #{perName,jdbcType=VARCHAR}, 
+      #{perType,jdbcType=INTEGER}, #{opeId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kongxiaogang.model.PermissionModel" >
     insert into sys_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="perId != null" >
         per_id,
+      </if>
+      <if test="perKey != null" >
+        per_key,
       </if>
       <if test="perName != null" >
         per_name,
@@ -50,6 +56,9 @@
       <if test="perId != null" >
         #{perId,jdbcType=INTEGER},
       </if>
+      <if test="perKey != null" >
+        #{perKey,jdbcType=VARCHAR},
+      </if>
       <if test="perName != null" >
         #{perName,jdbcType=VARCHAR},
       </if>
@@ -67,6 +76,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kongxiaogang.model.PermissionModel" >
     update sys_permission
     <set >
+      <if test="perKey != null" >
+        per_key = #{perKey,jdbcType=VARCHAR},
+      </if>
       <if test="perName != null" >
         per_name = #{perName,jdbcType=VARCHAR},
       </if>
@@ -84,7 +96,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kongxiaogang.model.PermissionModel" >
     update sys_permission
-    set per_name = #{perName,jdbcType=VARCHAR},
+    set per_key = #{perKey,jdbcType=VARCHAR},
+      per_name = #{perName,jdbcType=VARCHAR},
       per_type = #{perType,jdbcType=INTEGER},
       ope_id = #{opeId,jdbcType=INTEGER},
       menu_id = #{menuId,jdbcType=INTEGER}

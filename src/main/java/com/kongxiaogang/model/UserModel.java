@@ -22,6 +22,8 @@ public class UserModel extends BaseModel{
     private String userSalt;
     
     private Integer roleId;//用户所属角色id
+    
+    private RoleModel role;//角色信息
 
     public Integer getUserId() {
         return userId;
@@ -101,6 +103,14 @@ public class UserModel extends BaseModel{
 
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
+	}
+
+	public RoleModel getRole() {
+		return role;
+	}
+
+	public void setRole(RoleModel role) {
+		this.role = role;
 	}
     
 }

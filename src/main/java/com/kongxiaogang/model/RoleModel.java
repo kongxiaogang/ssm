@@ -4,6 +4,8 @@ import com.kongxiaogang.model.common.BaseModel;
 
 public class RoleModel extends BaseModel{
     private Integer roleId;
+    
+    private String roleKey;
 
     private String roleName;
 
@@ -17,7 +19,15 @@ public class RoleModel extends BaseModel{
         this.roleId = roleId;
     }
 
-    public String getRoleName() {
+	public String getRoleKey() {
+		return roleKey;
+	}
+
+	public void setRoleKey(String roleKey) {
+		this.roleKey = roleKey;
+	}
+
+	public String getRoleName() {
         return roleName;
     }
 

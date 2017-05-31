@@ -135,4 +135,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectUserAndRoleAndPerList(user);
 	}
 
+	@Override
+	public UserModel getUserByUserName(String userName) {
+		return userDao.getUserByUserName(userName);
+	}
+
 }

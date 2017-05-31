@@ -10,6 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +78,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login.do")
-	public ModelAndView login(HttpServletRequest request,HttpServletResponse response,RedirectAttributes redirectAttributes)
-			throws Exception {
+	public ModelAndView login(HttpServletRequest request,HttpServletResponse response,RedirectAttributes redirectAttributes) {
 		ModelAndView mav = new ModelAndView();
 		String username = request.getParameter("userName");
 		String passwd = request.getParameter("userPwd");
@@ -83,7 +91,151 @@ public class UserController {
 			mav.setViewName("redirect:/user/initlogin.do");
 			return mav;
 		} */
-		//校验用户名和密码
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(username, passwd);
+		try {
+			subject.login(token);
+			if (subject.isAuthenticated()) {
+				mav.setViewName("home");
+			} else {
+				redirectAttributes.addFlashAttribute("errMessage", "登录失败，请重新登录！");
+				mav.setViewName("redirect:/user/initlogin.do");
+			}
+		}catch (UnknownAccountException uae) {
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage","账户/密码错误！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}catch (IncorrectCredentialsException ice){
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage","账户/密码错误！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}catch (LockedAccountException e) {
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage", "您的账户已被锁定,请与管理员联系或10分钟后重试！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		} catch (ExcessiveAttemptsException e) {
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage", "您连续输错5次,帐号将被锁定10分钟!");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}catch(ExpiredCredentialsException eca)	{
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage", "账户凭证过期！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}catch (AuthenticationException e) {
+			token.clear();
+			redirectAttributes.addFlashAttribute("errMessage", "账户验证失败！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}catch (Exception e){
+			token.clear();
+			request.setAttribute("error", "登录异常，请联系管理员！");
+			mav.setViewName("redirect:/user/initlogin.do");
+		}
+		
+		UserModel userModel = userService.getUserByUserName(username);
+		//session中userAuth初始化
+		UserAuthModel userAuth = new UserAuthModel(userModel.getUserId(),userModel.getUserName(),userModel.getRealName());
+		//获取用户菜单的查询条件user
+		List<AuthorityMenu> authorityMenus=new ArrayList<AuthorityMenu>();//用户存储登录后左侧菜单树行结构
+		List<PermissionMenu> permissionMenus=new ArrayList<PermissionMenu>(); 
+		if("admin".equals(username)) { //管理员登录
+			List<MenuModel> allmenuList = menuService.getAllMenusList(new MenuModel());
+			Map<Integer,AuthorityMenu> allLevelTwoAuthorityMap = new LinkedHashMap<Integer,AuthorityMenu>();
+			Map<Integer,AuthorityMenu> allLevelThreeAuthorityMap = new LinkedHashMap<Integer,AuthorityMenu>();
+			for(MenuModel menu : allmenuList){
+				if("1".equals(menu.getLevel().toString())) {//一级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu(null,menu.getMenuId(), menu.getMenuName(), "", menu.getPageUrl(),menu.getParentId(),new ArrayList<AuthorityMenu>());
+					authorityMenus.add(authorityMenu);
+				}
+				if("2".equals(menu.getLevel().toString())) {//二级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu(null,menu.getMenuId(), menu.getMenuName(), "", menu.getPageUrl(),menu.getParentId(),new ArrayList<AuthorityMenu>());
+					allLevelTwoAuthorityMap.put(authorityMenu.getMenuId(),authorityMenu);
+				}
+				if("3".equals(menu.getLevel().toString())) {//三级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu(null,menu.getMenuId(), menu.getMenuName(), "", menu.getPageUrl(),menu.getParentId());
+					allLevelThreeAuthorityMap.put(authorityMenu.getMenuId(),authorityMenu);
+				}
+			}
+			//将所有三级菜单放在二级菜单的children
+			for(Map.Entry<Integer,AuthorityMenu> authority : allLevelThreeAuthorityMap.entrySet()) {
+				AuthorityMenu levelThreeAuthority = authority.getValue();
+				allLevelTwoAuthorityMap.get(levelThreeAuthority.getParentId()).getChildrens().add(levelThreeAuthority);
+			}
+			System.out.println(allLevelThreeAuthorityMap.size());
+			//将所有二级菜单放在一级菜单的children
+			for(Map.Entry<Integer,AuthorityMenu> authority : allLevelTwoAuthorityMap.entrySet()) {
+				AuthorityMenu levelTwoAuthority = authority.getValue();
+				for(AuthorityMenu levelOneAuthority : authorityMenus) {
+					if(levelTwoAuthority.getParentId().toString().equals(levelOneAuthority.getMenuId().toString())) {
+						levelOneAuthority.getChildrens().add(levelTwoAuthority);
+					}
+				}
+			}
+			//权限列表赋值
+			for(AuthorityMenu levelOneMenu : authorityMenus) {
+				PermissionMenu firstAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelOneMenu.getMenuName(),levelOneMenu.getPageUrl());
+				permissionMenus.add(firstAuthMenu);
+				for(AuthorityMenu levelTwoMenu : levelOneMenu.getChildrens()) {
+					PermissionMenu secondAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelTwoMenu.getMenuId(),levelTwoMenu.getMenuName(),levelTwoMenu.getMenuName(),levelTwoMenu.getPageUrl());
+					permissionMenus.add(secondAuthMenu);
+					for(AuthorityMenu levelThreeMenu : levelTwoMenu.getChildrens()) {
+						PermissionMenu thirdAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelTwoMenu.getMenuId(),levelTwoMenu.getMenuName(),levelThreeMenu.getMenuId(),levelThreeMenu.getMenuName(),levelThreeMenu.getMenuName(),levelThreeMenu.getPageUrl());
+						permissionMenus.add(thirdAuthMenu);
+					}
+				}
+			}
+		} else {
+			List<Map<String, Object>> roleAuthorities = userService.getUserAndRoleAndPerList(userModel);//获取该用户的所有菜单
+			Map<Integer,AuthorityMenu> allLevelTwoAuthorityMap = new LinkedHashMap<Integer,AuthorityMenu>();
+			Map<Integer,AuthorityMenu> allLevelThreeAuthorityMap = new LinkedHashMap<Integer,AuthorityMenu>();
+			for(Map<String,Object> authority : roleAuthorities){
+				if("1".equals(authority.get("level").toString())) {//一级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu((Integer)authority.get("perId"),(Integer)authority.get("menuId"), (String)authority.get("menuName"), "", (String)authority.get("pageUrl"),(Integer)authority.get("parentId"),new ArrayList<AuthorityMenu>() );
+					authorityMenus.add(authorityMenu);
+				}
+				if("2".equals(authority.get("level").toString())) {//二级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu((Integer)authority.get("perId"),(Integer)authority.get("menuId"), (String)authority.get("menuName"), "", (String)authority.get("pageUrl"),(Integer)authority.get("parentId"),new ArrayList<AuthorityMenu>() );
+					allLevelTwoAuthorityMap.put(authorityMenu.getMenuId(),authorityMenu);
+				}
+				if("3".equals(authority.get("level").toString())) {//三级菜单
+					AuthorityMenu authorityMenu=new AuthorityMenu((Integer)authority.get("perId"),(Integer)authority.get("menuId"), (String)authority.get("menuName"), "", (String)authority.get("pageUrl"),(Integer)authority.get("parentId"));
+					allLevelThreeAuthorityMap.put(authorityMenu.getMenuId(),authorityMenu);
+				}
+			}
+			//将所有三级菜单放在二级菜单的children
+			for(Map.Entry<Integer,AuthorityMenu> authority : allLevelThreeAuthorityMap.entrySet()) {
+				AuthorityMenu levelThreeAuthority = authority.getValue();
+				allLevelTwoAuthorityMap.get(levelThreeAuthority.getParentId()).getChildrens().add(levelThreeAuthority);
+			}
+			System.out.println(allLevelThreeAuthorityMap.size());
+			//将所有二级菜单放在一级菜单的children
+			for(Map.Entry<Integer,AuthorityMenu> authority : allLevelTwoAuthorityMap.entrySet()) {
+				AuthorityMenu levelTwoAuthority = authority.getValue();
+				for(AuthorityMenu levelOneAuthority : authorityMenus) {
+					if(levelTwoAuthority.getParentId().toString().equals(levelOneAuthority.getMenuId().toString())) {
+						levelOneAuthority.getChildrens().add(levelTwoAuthority);
+					}
+				}
+			}
+			//权限列表赋值
+			for(AuthorityMenu levelOneMenu : authorityMenus) {
+				PermissionMenu firstAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelOneMenu.getMenuName(),levelOneMenu.getPageUrl());
+				permissionMenus.add(firstAuthMenu);
+				for(AuthorityMenu levelTwoMenu : levelOneMenu.getChildrens()) {
+					PermissionMenu secondAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelTwoMenu.getMenuId(),levelTwoMenu.getMenuName(),levelTwoMenu.getMenuName(),levelTwoMenu.getPageUrl());
+					permissionMenus.add(secondAuthMenu);
+					for(AuthorityMenu levelThreeMenu : levelTwoMenu.getChildrens()) {
+						PermissionMenu thirdAuthMenu = new PermissionMenu(levelOneMenu.getMenuId(),levelOneMenu.getMenuName(),levelTwoMenu.getMenuId(),levelTwoMenu.getMenuName(),levelThreeMenu.getMenuId(),levelThreeMenu.getMenuName(),levelThreeMenu.getMenuName(),levelThreeMenu.getPageUrl());
+						permissionMenus.add(thirdAuthMenu);
+					}
+				}
+			}
+		}
+		userAuth.setAuthorityMenus(authorityMenus);
+		userAuth.setPermissionMenus(permissionMenus);
+		request.getSession().setAttribute("userAuth", userAuth); //将userAuth存入session
+		mav.setViewName("home");
+		return mav;
+		/*//校验用户名和密码
 		if(null != username &&!"".equals(username) && null != passwd&&!"".equals(passwd)){
 			try {
 				UserModel login = new UserModel();
@@ -210,6 +362,7 @@ public class UserController {
 			mav.setViewName("redirect:/user/initlogin.do");
 		}
 		return mav;
+		*/
 	}
 	
 	/**

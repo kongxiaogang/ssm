@@ -17,6 +17,8 @@
 	<mybatis-spring>1.3.0</mybatis-spring>
 	<!-- junit日志文件管理包版本 -->  
 	<junit.version>4.10</junit.version>  
+	<!-- shior版本号 -->
+	<shiro.version>1.3.2</shiro.version>
   </properties>  
   <dependencies>
   	<!-- spring 核心包 -->
@@ -183,6 +185,30 @@
  			<version>0.9.5</version>
 	</dependency>
 	<!-- 分页查询插件结束 -->
+	<!-- shiro 核心包 -->
+	<dependency>
+    	<groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-core</artifactId>
+	    <version>${shiro.version}</version>
+	</dependency>
+	<!-- shiro web包  -->
+	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-web</artifactId>
+	    <version>${shiro.version}</version>
+	</dependency>
+	<!-- shiro 整合spring包 -->
+	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-spring</artifactId>
+	    <version>${shiro.version}</version>
+	</dependency>
+	<!-- shiro 整合ehcache包 -->
+	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-ehcache</artifactId>
+	    <version>${shiro.version}</version>
+	</dependency>
   </dependencies>
   <build>
 		<plugins>

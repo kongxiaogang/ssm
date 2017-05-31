@@ -39,7 +39,7 @@ public class MD5Util {
 		return resultString;
 	}
 	public static void main(String[] args) {
-		System.out.println(MD5Encode("111111"+"Weg26G","utf8"));
+		System.out.println(MD5Encode("111111"+"Weg26G","utf8"));//207ccaf66821b163dbfa1c6e094cc45d
 	}
 
 	private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",

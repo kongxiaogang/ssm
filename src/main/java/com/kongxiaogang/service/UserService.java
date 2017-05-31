@@ -31,6 +31,7 @@ public interface UserService {
 	 * 根据userid查找用戶信息
 	 */
 	public UserModel getUserByID(String id);
+	public UserModel getUserByUserName(String userName);
 	/**
 	 * 修改用户信息
 	 */
@@ -43,4 +44,5 @@ public interface UserService {
 	 * <pre>getUserAndRoleAndPerList(根据用户查询用户，角色和对应的权限，菜单信息)   
 	 */
 	public List<Map<String,Object>> getUserAndRoleAndPerList(UserModel user);
+	
 }

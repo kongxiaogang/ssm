@@ -12,6 +12,23 @@
     <result column="login_number" property="loginNumber" jdbcType="INTEGER" />
     <result column="user_salt" property="userSalt" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="userMap" type="com.kongxiaogang.model.UserModel">
+	<id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_status" property="userStatus" jdbcType="INTEGER" />
+    <result column="user_telephone" property="userTelephone" jdbcType="VARCHAR" />
+    <result column="login_number" property="loginNumber" jdbcType="INTEGER" />
+    <result column="user_salt" property="userSalt" jdbcType="VARCHAR" />
+	<association property="role" column="role_id" javaType="com.kongxiaogang.model.RoleModel">
+		<id column="role_id" property="roleId" jdbcType="INTEGER" />
+    	<result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    	<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    	<result column="role_des" property="roleDes" jdbcType="VARCHAR" />
+	</association>
+  </resultMap>
   <sql id="Base_Column_List" >
     user_id, user_name, real_name, user_pwd, user_email, user_status, user_telephone, 
     login_number, user_salt
@@ -39,6 +56,15 @@
 	<include refid="Base_Column_List" />
 	FROM sys_user
 	WHERE user_name=#{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="userMap">
+	SELECT
+		u.user_id, u.user_name, u.real_name, u.user_pwd, u.user_email, u.user_status, u.user_telephone, 
+    	u.login_number, u.user_salt,r.role_id,r.role_key,r.role_name,r.role_des
+	FROM sys_user u
+	left join sys_user_role ur on u.user_id = ur.user_id
+	left join sys_role r on ur.role_id = r.role_id
+	WHERE u.user_name=#{userName,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

@@ -11,4 +11,18 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="com.kongxiaogang.service" />
 	<context:component-scan base-package="com.kongxiaogang.dao" />
+	
+	<!-- 引入模块配置文件 -->
+	<import resource="spring/spring-shiro.xml" />
+	<!-- 引入属性文件:方式一 -->
+	<!-- <context:property-placeholder ignore-unresolvable="true" location="classpath:jdbc.properties,classpath:webside.properties"/> -->
+	<!-- 引入属性文件:方式二 -->
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
 </beans>

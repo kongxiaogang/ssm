@@ -4,6 +4,8 @@ import com.kongxiaogang.model.common.BaseModel;
 
 public class PermissionModel extends BaseModel{
     private Integer perId;
+    
+    private String perKey;
 
     private String perName;
 
@@ -21,7 +23,15 @@ public class PermissionModel extends BaseModel{
         this.perId = perId;
     }
 
-    public String getPerName() {
+    public String getPerKey() {
+		return perKey;
+	}
+
+	public void setPerKey(String perKey) {
+		this.perKey = perKey;
+	}
+
+	public String getPerName() {
         return perName;
     }
 

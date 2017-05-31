@@ -12,7 +12,7 @@
 			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
 	default-autowire="byName">
 	<mvc:annotation-driven />
-	<!-- 访问静态资源 -->
+	<!-- 访问静态资源 -->	
 	<mvc:resources location="/data/" mapping="/data/**"/>  
 	<context:component-scan base-package="com.kongxiaogang.controller" />
 	
@@ -26,19 +26,19 @@
 	</bean>
 	<!-- 文件上传配置结束 --> 
 	<!-- 注册拦截器开始 -->
-	<mvc:interceptors>  
-        <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->  
-        <!-- 暂不配置 <bean class="com.host.app.web.interceptor.AllInterceptor"/>  --> 
+	<!-- <mvc:interceptors>  
+        使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求  
+        暂不配置 <bean class="com.host.app.web.interceptor.AllInterceptor"/>  
       	<mvc:interceptor>  
         	<mvc:mapping path="/**/*.do"/>
         	<mvc:mapping path="/*.do"/>
-        	<!-- 排除地址 -->
+        	排除地址
             <mvc:exclude-mapping path="/user/initlogin.do"/>
             <mvc:exclude-mapping path="/user/login.do"/>
             <mvc:exclude-mapping path="/user/logout.do"/>
             <mvc:exclude-mapping path="/user/captcha.do"/>
             <bean class="com.kongxiaogang.controller.interceptor.LoginInterceptor"> </bean>  
         </mvc:interceptor>
-    </mvc:interceptors>  
+    </mvc:interceptors>   -->
 	<!-- 注册拦截器结束 -->
 </beans>

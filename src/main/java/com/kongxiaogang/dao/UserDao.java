@@ -31,4 +31,6 @@ public interface UserDao {
 	public List<Map<String,Object>> selectUserAndRoleList(UserModel user);
 	
 	public List<Map<String, Object>> selectUserAndRoleAndPerList(UserModel user);
+
+	UserModel selectByUserName(String username);
 }
